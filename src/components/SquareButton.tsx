@@ -47,6 +47,8 @@ export const SquareButton = (props: Props) => {
 
 const styles = StyleSheet.create({
   button: {
+    alignSelf:'center',
+    justifyContent:'center',
     marginTop: scale(20),
     flexDirection: 'row',
     width: width,

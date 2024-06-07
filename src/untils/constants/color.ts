@@ -8,6 +8,8 @@ export const color = {
     LightSilver :'#D9D9D9',
     Lust:'#E91919',
     AlienArmpit: '#81E919',
+    PastelPink:'#ED9A95',
+
   };
 
   

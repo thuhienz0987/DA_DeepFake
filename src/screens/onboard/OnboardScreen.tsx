@@ -9,13 +9,15 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {IMG_Logo, IMG_Logo2} from '../../assets/images';
-import { color,FONT_FAMILY,scale } from '../../untils/constants';
+import {color, FONT_FAMILY, scale} from '../../untils/constants';
 
 import { ButtonComponent } from '../../components';
-import { useNavigation } from '@react-navigation/native';
-const images = [IMG_Logo, IMG_Logo2];
+import {useNavigation} from '@react-navigation/native';
+const images = [
+  {url: IMG_Logo, description: 'Combat deep fakes, safeguard authenticity', id: 1},
+  {url: IMG_Logo2, description: 'Use artificial intelligence to combat artificial intelligence', id:2},
+];
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,9 +26,10 @@ const OnBoardScreen = () => {
 
   const navigation = useNavigation<any>();
 
-  const renderImageIndicator = (index:number) => {
+  const renderImageIndicator = (index: number) => {
     return (
       <TouchableOpacity
+      key={index}
         onPress={() => setCurrentImageIndex(index)}
         style={[styles.dot, index === currentImageIndex && styles.activeDot]}
       />
@@ -40,14 +43,12 @@ const OnBoardScreen = () => {
         data={images}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item, index}) => (
+        keyExtractor={(item) => item.id.toString()} 
+        renderItem={({item}) => (
           <View style={styles.scrollContent}>
-            <View style={styles.topContainer}>
-              <Image source={item} style={styles.image} />
-              <Text style={styles.largeText}>
-                Combat deep fakes, safeguard authenticity
-              </Text>
+            <View style={styles.topContainer} >
+              <Image source={item.url} style={styles.image} />
+              <Text style={styles.largeText}>{item.description}</Text>
             </View>
           </View>
         )}
@@ -60,7 +61,11 @@ const OnBoardScreen = () => {
       <View style={styles.dotContainer}>
         {images.map((_, index: number) => renderImageIndicator(index))}
       </View>
-      <ButtonComponent text={'Get Started'} widthButton={scale(280)} onPress={()=> navigation.push('Home')} />
+      <ButtonComponent
+        text={'Get Started'}
+        widthButton={scale(280)}
+        onPress={() => navigation.push('Home')}
+      />
     </SafeAreaView>
   );
 };
@@ -80,8 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: width * 1.5, 
-    height: height * 0.5, 
+    width: width * 1.5,
+    height: height * 0.5,
     resizeMode: 'contain',
   },
   largeText: {

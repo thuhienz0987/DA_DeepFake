@@ -8,10 +8,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { color,FONT_FAMILY,scale } from '../../untils/constants';
+import {color, FONT_FAMILY, scale} from '../../untils/constants';
 import {IMG_Logo} from '../../assets/images';
-import { useNavigation } from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native';
 
 const UserManual = () => {
   const translateY = useRef(new Animated.Value(scale(50))).current;
@@ -36,25 +35,25 @@ const UserManual = () => {
           <Text style={styles.textHeadLine}>DEFAKE</Text>
         </View>
         <Text style={styles.bottomFrameText}>
-          Your user manual content here
-        </Text>
-        <Text style={styles.bottomFrameText}>
-          Your user manual content here
-        </Text>
-        <Text style={styles.bottomFrameText}>
-          Your user manual content here
-        </Text>
-        <Text style={styles.bottomFrameText}>
-          Your user manual content here
-        </Text>
-        <Text style={styles.bottomFrameText}>
-          Your user manual content here
-        </Text>
-        <Text style={styles.bottomFrameText}>
-          Your user manual content here
+          Select the Photo to Check:Tap the "Select Photo" button or icon, then
+          choose a photo from your library
         </Text>
 
-        <TouchableOpacity style={styles.viewButton} onPress={()=>navigation.goBack()}>
+        <Text style={styles.bottomFrameText}>
+          Upload the Photo to the App: After selecting the photo, tap the
+          "Upload" button to upload the photo to the app.
+        </Text>
+        <Text style={styles.bottomFrameText}>
+          Analyze the Photo: Tap the "Detect" button to begin the photo analysis
+          process.
+        </Text>
+        <Text style={styles.bottomFrameText}>
+          Receive Results: Wait a few seconds for the app to analyze the photo.
+          The result will display as either "Real image" or "Fake image".
+        </Text>
+        <TouchableOpacity
+          style={styles.viewButton}
+          onPress={() => navigation.goBack()}>
           <Text style={styles.textButton}>Close</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textHead: {
-
     color: color.White,
     fontSize: 24,
     fontFamily: FONT_FAMILY.PoppinsSemiBold,
@@ -113,9 +111,12 @@ const styles = StyleSheet.create({
     color: color.White,
   },
   bottomFrameText: {
+    paddingHorizontal: 30,
+    paddingVertical: 10,
     color: color.White,
     fontSize: 13,
     fontFamily: FONT_FAMILY.PoppinsThin,
+    textAlign: 'left',
   },
   viewButton: {
     position: 'absolute',

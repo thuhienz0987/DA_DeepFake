@@ -35,7 +35,7 @@ export const ButtonComponent = (props: Props) => {
 
 const styles = StyleSheet.create({
   button: {
-    // width: width,
+    // width: scale(160),
     height: scale(150),
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: color.Black,
-    fontFamily: FONT_FAMILY.PoppinsSemiBold,
+    // fontFamily: FONT_FAMILY.PoppinsSemiBold,
   },
 });
