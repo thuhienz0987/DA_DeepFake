@@ -12,8 +12,8 @@
   
 | No. | MSSV | Full Name | Position |
 |-------|-------|-------|-------|
-| 1 | 21521008 | Mai Đình Khôi | FE dev |
-| 2 | 21522059 | Lê Thị Thu Hiền | BE dev |
+| 1 | 21521008 | Mai Đình Khôi | BE dev |
+| 2 | 21522059 | Lê Thị Thu Hiền | FE dev |
   
 </details>
 <details>
