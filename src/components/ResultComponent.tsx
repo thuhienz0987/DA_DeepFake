@@ -47,24 +47,16 @@ export const ResultComponent = (props: Props) => {
   const shareImage = async () => {
     try {
 
-      let message = 'From DeFake App\n';
-    message += 'Image Analysis Result:\n';
-    if (props.result === '1') {
-      message += 'This image is Real.';
-    } else if (props.result === '2') {
-      message += 'This image is Fake.';
-    } else {
-      message += 'No analysis result.';
-    }
 
 
-      const base64Data = await RNFS.readFile(props.cameraPhoto, 'base64');
-      const imageUrl = `data:image/jpeg;base64,${base64Data}`;
+      // const base64Data = await RNFS.readFile(props.cameraPhoto, 'base64');
+      // const imageUrl = `data:image/jpeg;base64,${base64Data}`;
 
       const option = {
-        url: imageUrl,
+        // url: imageUrl,
         title: props.title,
-        message: message,
+        url: props.cameraPhoto
+        // message: message,
       };
       const res = await Share.open(option);
       console.log(res);
@@ -76,7 +68,7 @@ export const ResultComponent = (props: Props) => {
   const handleShare = async () => {
     await shareImage();
 
-    // await shareMessage();
+    await shareMessage();
   };
 
   return (
@@ -100,10 +92,10 @@ export const ResultComponent = (props: Props) => {
         )}
       </LinearGradient>
 
-      <TouchableOpacity style={styles.viewShare} onPress={handleShare}>
+      {/* <TouchableOpacity style={styles.viewShare} onPress={handleShare}>
         <Text style={styles.textShare}>Share with </Text>
         <IC_Facebook width={25} height={25} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

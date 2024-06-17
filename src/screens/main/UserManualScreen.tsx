@@ -34,6 +34,7 @@ const UserManual = () => {
           <Image source={IMG_Logo} style={styles.image}></Image>
           <Text style={styles.textHeadLine}>DEFAKE</Text>
         </View>
+        <View>
         <Text style={styles.bottomFrameText}>
           Select the Photo to Check:Tap the "Select Photo" button or icon, then
           choose a photo from your library
@@ -51,6 +52,7 @@ const UserManual = () => {
           Receive Results: Wait a few seconds for the app to analyze the photo.
           The result will display as either "Real image" or "Fake image".
         </Text>
+        </View>
         <TouchableOpacity
           style={styles.viewButton}
           onPress={() => navigation.goBack()}>

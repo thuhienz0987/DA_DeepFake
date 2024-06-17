@@ -6,7 +6,7 @@ interface LoadingProps {
   color?: string;
 }
 
-const Loading: React.FC<LoadingProps> = ({ visible, color = '#ffffff' }) => {
+const LoadingComponent: React.FC<LoadingProps> = ({ visible, color = '#ffffff' }) => {
   return (
     <Modal transparent visible={visible}>
       <View style={styles.background}>
@@ -16,7 +16,7 @@ const Loading: React.FC<LoadingProps> = ({ visible, color = '#ffffff' }) => {
   );
 };
 
-export default Loading;
+export default LoadingComponent;
 
 const styles = StyleSheet.create({
   background: {

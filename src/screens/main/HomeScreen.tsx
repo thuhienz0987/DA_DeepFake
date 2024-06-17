@@ -1,26 +1,27 @@
-import { SafeAreaView, StyleSheet, PermissionsAndroid, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { IMG_Logo, IMG_BulkHead } from '../../assets/images';
-import { color, FONT_FAMILY, scale } from '../../untils/constants';
-import { SquareButton, ButtonComponent, ResultComponent  } from '../../components';
+import { SafeAreaView, StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { launchCamera, launchImageLibrary, MediaType } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { IMG_Logo, IMG_BulkHead, IMG_Default } from '../../assets/images';
+import { color, FONT_FAMILY, scale } from '../../untils/constants';
+import { SquareButton, ButtonComponent, ResultComponent } from '../../components';
 import LoadingComponent from '../../components/LoadingComponent';
 import ErrorComponent from '../../components/ErrorComponent';
+import { CategoriesComponent } from '../../components/CategoriesComponent';
 
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = () => {
   const navigation = useNavigation<any>();
-    const defaultImg = 'https://raw.githubusercontent.com/mowshon/age-and-gender/master/example/result.jpg';
+  const defaultImg = IMG_Default;
   const [cameraPhoto, setCameraPhoto] = useState(defaultImg);
   const [result, setResult] = useState('0');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const [method, setMethod] = useState<string>('average');
 
   const options = {
     savePhotos: true,
@@ -32,7 +33,7 @@ const HomeScreen = () => {
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       const result = await launchCamera(options);
       if (result && result.assets && result.assets.length > 0 && !result.didCancel) {
-        setCameraPhoto(result.assets[0].uri || defaultImg);
+        setCameraPhoto({ uri: result.assets[0].uri });
       } else {
         console.error('Camera operation failed or was canceled');
       }
@@ -41,8 +42,8 @@ const HomeScreen = () => {
 
   const openGallery = async () => {
     const result = await launchImageLibrary(options);
-    if (!result.didCancel) {
-      setCameraPhoto(result.assets?.[0]?.uri || defaultImg);
+    if (!result.didCancel && result.assets && result.assets.length > 0) {
+      setCameraPhoto({ uri: result.assets[0].uri });
     }
   };
 
@@ -51,31 +52,26 @@ const HomeScreen = () => {
     const formData = new FormData();
     formData.append('image', {
       name: 'image.png',
-      uri: cameraPhoto,
+      uri: cameraPhoto.uri,
       type: 'image/png',
     });
 
     try {
-      const response = await axios.post('http://4.144.203.94:5000/api/method/average', formData, {
+      const response = await axios.post(`http://4.144.203.94:5000/api/method/${method}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('success', response.data);
-      if(response.data.fakeness >= 0.5){
-        setResult('2')
-      }else{
-        setResult('1')
-      }
+      setResult(response.data.fakeness >= 0.5 ? '2' : '1');
       setLoading(false);
-    } catch (err:any) {
-      console.log(err)
+      console.log(response.data.fakeness);
+    } catch (err: any) {
       setError(true);
-      setErrorMessage(err.message)
+      setErrorMessage(err.message === "Request failed with status code 500" ? 'Server error' : err.message);
       setLoading(false);
-
     }
   };
+
   useEffect(() => {
     if (cameraPhoto !== defaultImg) {
       setResult('0');
@@ -84,26 +80,30 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {loading && <LoadingComponent visible={loading}/>}
-      <ErrorComponent visible={error} message={errorMessage} onClose={() => {setErrorMessage(''), setError(false)}} />
+      {loading && <LoadingComponent visible={loading} />}
+      <ErrorComponent visible={error} message={errorMessage} onClose={() => { setError(false); setErrorMessage(''); }} />
       <View style={styles.viewHead}>
         <Image source={IMG_Logo} style={styles.imageHead} />
         <Text style={styles.textHead}>DEFAKE</Text>
       </View>
-
       <View style={styles.viewButton}>
         <SquareButton iconType='IC_Image' text={'Open Gallery'} onPress={openGallery} />
         <Image source={IMG_BulkHead} style={styles.bulkHeadImage} />
-      </View>
+        <View style={styles.chooseCategories}>
+        <CategoriesComponent widthButton={70} text='Average' selected={method === 'average'} onPress={() => {setMethod('average'),setResult('0')}} />
+          <CategoriesComponent widthButton={70} text='CNN' selected={method === 'cnn'} onPress={() => {setMethod('cnn'),setResult('0')}} />
+          <CategoriesComponent widthButton={70} text='Universal' selected={method === 'universal_fake'} onPress={() => {setMethod('universal_fake'),setResult('0')}} />
+          <CategoriesComponent widthButton={70} text='Self Blend' selected={method === 'self_blended'} onPress={() => {setMethod('self_blended'),setResult('0')}} />
 
+        </View>
+      </View>
       <View style={styles.viewDetect}>
         <LinearGradient colors={[color.DeepAquamarine, color.SeaFoamGreen]} style={styles.imageContainer}>
-          <Image source={{ uri: cameraPhoto }} style={styles.imageDetect} />
+          <Image source={cameraPhoto.uri ? cameraPhoto : defaultImg} resizeMode='contain' style={styles.imageDetect} />
         </LinearGradient>
         {result === '0' && <ButtonComponent text={'Detect'} widthButton={scale(140)} onPress={handleSubmits} />}
-        {result !== '0' && <ResultComponent result={result} cameraPhoto={cameraPhoto}  title='fake' />}
+        {result !== '0' && <ResultComponent result={result} cameraPhoto={cameraPhoto.uri} title='fake' />}
       </View>
-
       <TouchableOpacity onPress={() => navigation.push('UserManual')} style={[styles.circle, { width: scale(40), height: scale(40) }]}>
         <View style={styles.circleContent}>
           <Text style={styles.largeText}>?</Text>
@@ -186,5 +186,11 @@ const styles = StyleSheet.create({
     color: color.White,
     textAlign: 'right',
     fontFamily: FONT_FAMILY.PoppinsRegular,
+  },
+  chooseCategories: {
+    height: scale(100),
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
   },
 });
