@@ -44,6 +44,7 @@ const HomeScreen = () => {
     const result = await launchImageLibrary(options);
     if (!result.didCancel && result.assets && result.assets.length > 0) {
       setCameraPhoto({ uri: result.assets[0].uri });
+      console.log(cameraPhoto)
     }
   };
 
@@ -67,7 +68,7 @@ const HomeScreen = () => {
       console.log(response.data.fakeness);
     } catch (err: any) {
       setError(true);
-      setErrorMessage(err.message === "Request failed with status code 500" ? 'Server error' : err.message);
+      setErrorMessage(cameraPhoto===defaultImg ? 'Please choose your image':(err.message === "Request failed with status code 500" ? 'Server error' : err.message));
       setLoading(false);
     }
   };
