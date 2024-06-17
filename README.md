@@ -1,3 +1,50 @@
+# HumanResourceManagementProject-Team4-UIT
+
+<details>
+  <summary><h2>1. Introduction</h2></summary>
+  
+   DeepFake application is a tool used to detect whether an image is real or fake, helping us to distinguish between authenticity and forgery, thereby avoiding deception in the current digital age.  
+   
+</details>
+
+<details>
+  <summary><h2>2. Our team member</h2></summary>
+  
+| No. | MSSV | Full Name | Position |
+|-------|-------|-------|-------|
+| 1 | 21521008 | Mai Đình Khôi | BE dev |
+| 2 | 21522059 | Lê Thị Thu Hiền | FE dev |
+  
+</details>
+<details>
+  <summary><h2>3. Overview</h2></summary>
+
+#### a. **Real-world problem**
+Nowadays, as technology continues to advance, technological threats to humanity are increasing. Especially when such threats severely impact personal life, identity forgery and information theft lead to unforeseen dangers.
+#### b. **Purpose**
+* Solve reality problems.
+* Evaluate the recognition model and integrate it into the application.
+</details>
+<details>
+ <summary><h2>4. Techniques and Tools</h2></summary>
+  
+#### a. **Design UI**
+* Figma
+* Canva
+#### b. **Front-End**  
+* NextJs
+* TypeScript
+#### c. **Back-End**
+* Flask
+* Python
+#### d.**Deploy**
+* Azure
+#### e. **CI/CD**
+* GitHub
+* Microsoft Excel
+</details>
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
